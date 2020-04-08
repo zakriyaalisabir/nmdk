@@ -7,15 +7,15 @@
     "prestart": "cp .env.sample .env",
     "start": "node server.js",
     "test": "",
-    "compose":"npm run down && docker-compose up",
-    "down":"docker-compose down"
+    "compose": "npm run down && docker-compose up",
+    "down": "docker-compose down"
   },
   "author": "zakriyaalisabir",
   "license": "ISC",
   "dependencies": {
     "dotenv": "~8.2.0",
     "express": "~4.17.1",
-    "marked": "^0.8.2",
+    "marked": "~0.8.2",
     "minio": "~7.0.10",
     "mongodb": "~3.5.2",
     "multer": "~1.4.1",
