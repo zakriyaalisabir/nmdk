@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+  app:
+    name: nmdk
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    command: ["nodemon", "server.js"]
+    depends_on:
+      - db
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ./app
+        target: /home/node/app
+
+  db:
+    image: mongo
+    container_name: mongo-container
+    restart: always
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "{ ping: 1 }"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=db
