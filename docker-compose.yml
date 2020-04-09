@@ -16,7 +16,7 @@ services:
       - PORT=${PORT}
       - SESSION_SECRET=${SESSION_SECRET}
       - DB=${DB}
-      - MONGO_URL=mongodb:27017
+      - MONGO_URL=${MONGO_URL}
     ports:
       - 3000:3000
 
@@ -38,10 +38,3 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=username
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=db
-networks:
-  mongo_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/24
-          gateway: 172.16.0.254
