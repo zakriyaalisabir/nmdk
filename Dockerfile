@@ -1,7 +1,5 @@
-ARG NODE_VERSION=12
-ARG NODE_ENV=production
+FROM node:12.0-slim
 
-FROM node:${NODE_VERSION}}.0-slim
 COPY . .
 RUN npm install
 EXPOSE 3000

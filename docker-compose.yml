@@ -1,29 +1,33 @@
 version: "3.7"
 services:
   app:
-    name: nmdk
+    container_name: auth-app-nodejs
+    restart: always
     build:
       context: .
       args:
         NODE_ENV: development
-    command: ["nodemon", "server.js"]
+    command: ["node", "server.js"]
     depends_on:
       - db
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV}
+      - DEBUG=${DEBUG}
+      - PORT=${PORT}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - DB=${DB}
+      - MONGO_URL=mongodb:27017
     ports:
       - 3000:3000
-    volumes:
-      - type: bind
-        source: ./app
-        target: /home/node/app
 
   db:
     image: mongo
     container_name: mongo-container
     restart: always
     ports:
-      - 27017:27017
+      - 27017-27019:27017-27019
+    volumes:
+      - /data/data:/data/db
     healthcheck:
       test: ["CMD", "mongo", "--eval", "{ ping: 1 }"]
       interval: 10s
@@ -34,3 +38,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=username
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=db
+networks:
+  mongo_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
+          gateway: 172.16.0.254

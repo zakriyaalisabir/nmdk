@@ -2,22 +2,21 @@
 
 // set up ======================================================================
 // get all the tools we need
-var express = require('express');
-var app = express();
-var mongoose = require('mongoose');
-var passport = require('passport');
-var flash = require('connect-flash');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+const { isUndefined } = require('lodash');
+const express = require('express');
+const app = express();
+const passport = require('passport');
+const flash = require('connect-flash');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
-var configDB = require('./config/db.js');
+const { establishConnection } = require('./config/db.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url, {
-  useMongoClient: true,
-}); // connect to our database
+
+establishConnection(); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -28,11 +27,14 @@ app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
+app.set('views', __dirname + '/views');
 
 // required for passport
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // session secret
+    secret: !isUndefined(process.env.SESSION_SECRET)
+      ? process.env.SESSION_SECRET
+      : 'session-secret', // session secret
     resave: true,
     saveUninitialized: true,
   }),

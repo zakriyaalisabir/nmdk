@@ -3,12 +3,12 @@ module.exports = function (app, passport) {
 
   // show the home page (will also have our login links)
   app.get('/', function (req, res) {
-    res.render('./src/views/index.ejs');
+    res.render('index.ejs');
   });
 
   // PROFILE SECTION =========================
   app.get('/profile', isLoggedIn, function (req, res) {
-    res.render('./src/views/profile.ejs', {
+    res.render('profile.ejs', {
       user: req.user,
     });
   });
@@ -27,7 +27,7 @@ module.exports = function (app, passport) {
   // LOGIN ===============================
   // show the login form
   app.get('/login', function (req, res) {
-    res.render('./src/views/login.ejs', { message: req.flash('loginMessage') });
+    res.render('login.ejs', { message: req.flash('loginMessage') });
   });
 
   // process the login form
@@ -43,7 +43,7 @@ module.exports = function (app, passport) {
   // SIGNUP =================================
   // show the signup form
   app.get('/signup', function (req, res) {
-    res.render('./src/views/signup.ejs', {
+    res.render('signup.ejs', {
       message: req.flash('signupMessage'),
     });
   });
@@ -64,7 +64,7 @@ module.exports = function (app, passport) {
 
   // locally --------------------------------
   app.get('/connect/local', function (req, res) {
-    res.render('./src/views/connect-local.ejs', {
+    res.render('connect-local.ejs', {
       message: req.flash('loginMessage'),
     });
   });
