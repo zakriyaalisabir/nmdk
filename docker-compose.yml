@@ -7,7 +7,6 @@ services:
       context: .
       args:
         NODE_ENV: development
-    command: ["node", "server.js"]
     depends_on:
       - db
     environment:
@@ -16,7 +15,7 @@ services:
       - PORT=${PORT}
       - SESSION_SECRET=${SESSION_SECRET}
       - DB=${DB}
-      - MONGO_URL=${MONGO_URL}
+      - MONGO_URL=mongodb://db:27017
     ports:
       - 3000:3000
 
@@ -25,7 +24,7 @@ services:
     container_name: mongo-container
     restart: always
     ports:
-      - 27017-27019:27017-27019
+      - 27017:27017
     volumes:
       - /data/data:/data/db
     healthcheck:
@@ -35,6 +34,6 @@ services:
       retries: 5
       start_period: 30s
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=username
-      - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_INITDB_DATABASE=db
+    #   - MONGO_INITDB_ROOT_USERNAME=username
+    #   - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=${DB}

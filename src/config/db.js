@@ -31,12 +31,13 @@ const URL = `${
 }/${!isUndefined(process.env.DB) ? process.env.DB : 'dev'}`;
 
 const connect = async () => {
-  await mongoose.connect(URL, {
+  const db=await mongoose.connect(URL, {
     useNewUrlParser: true,
     autoReconnect: true,
     reconnectTries: 1000000,
     reconnectInterval: 3000,
   });
+  db.coll
 };
 
 const establishConnection = async () => {
