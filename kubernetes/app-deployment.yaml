@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/1/./kompose-linux-amd64 convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: app
+  name: app
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: app
+    spec:
+      containers:
+      - env:
+        - name: DB
+        - name: DEBUG
+        - name: MONGO_URL
+          value: mongodb://db:27017
+        - name: NODE_ENV
+        - name: PORT
+        - name: SESSION_SECRET
+        image: app
+        name: auth-app-nodejs
+        ports:
+        - containerPort: 3000
+        resources: {}
+      restartPolicy: Always
+status: {}
